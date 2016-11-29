@@ -4,7 +4,7 @@
 | 이름        | 폴더           |
 | :-------------: |:-------------:|
 | 김동호      | / |
-| 안성훈      | / |
+|  안성훈      | / |
 | 김현욱      | / |
 
 
@@ -15,7 +15,7 @@
 * 새로운 작업하기 전에는 '꼭' github로 부터 pull을 받는다. (Console에서 "git pull" 입력)
 
 * 시작할 때
-    > git clone https://github.com/astrohsy/CPL-20162-Team2.git
+    > git clone https://github.com/dongho518/Triple_TripQuest.git
 
 * 프로젝트를 최신 상태로 갱신할 때
     > git pull
