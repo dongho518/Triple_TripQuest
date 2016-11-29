@@ -1,45 +1,28 @@
-ScanYou Team 수행계획
-2016/09/12 (전 팀원)
+#Triple Team 수행계획
 
-박순용 교수님 연구실에서 논문 주제 및 응용 부분에 대한 회의 진행
-2016/09/11 ~ 2016/09/18 (담당자 : 이호승)
+#### 팀원 프로젝트 수행중인 
+| 이름        | 폴더           |
+| :-------------: |:-------------:|
+| 김동호      | / |
+| 안성훈      | / |
+| 김현욱      | / |
 
-3D-Model을 보여줄 수 있는 웹페이지 생성.
-2016/09/12 ~ (담당자 : 김성현)
 
-DSLR 영상 추출 프로그램 제작
-2016/09/13 ~ (담당자 : 김성현)
+# Triple Team 규칙
 
-camera calibration 프로그램 제작
-다른 팀원들은 여기에 자기 업무 수행 계획 업뎃 바람. github의 issue기능을 활용한다.
+* 같은 파일을 같이 작업하지 않는다.
 
-팀원 프로젝트 수행중인 폴더
+* 새로운 작업하기 전에는 '꼭' github로 부터 pull을 받는다. (Console에서 "git pull" 입력)
 
-이름	폴더
-김동호	/3d-printing
-김미수	/MeshGenerator
-김동호	/3d-printing
-김성현	/3application
-김성현	/calibration
-김성현	/camera
-김동호	/intergrate
-이호승	/intergrated-sw
-이호승	/문서
-공통	/
-ScanYou Team 규칙
-같은 파일을 같이 작업하지 않는다.
+* 시작할 때
+    > git clone https://github.com/astrohsy/CPL-20162-Team2.git
 
-새로운 작업하기 전에는 '꼭' github로 부터 pull을 받는다. (Console에서 "git pull" 입력)
+* 프로젝트를 최신 상태로 갱신할 때
+    > git pull
 
-시작할 때
+* 내 소스를 github로 업데이트 할 때 <br />
+    > git add . <br />
+    > git commit -am "수정된 내용" <br />
+    > git push origin master
 
-git clone https://github.com/astrohsy/CPL-20162-Team2.git
-프로젝트를 최신 상태로 갱신할 때
-
-git pull
-내 소스를 github로 업데이트 할 때 
-
-git add . 
-git commit -am "수정된 내용" 
-git push origin master
-git이 없다고 뜰 경우, https://git-scm.com/downloads 에서 다운로드를 받는다.
+* git이 없다고 뜰 경우, https://git-scm.com/downloads 에서 다운로드를 받는다.
