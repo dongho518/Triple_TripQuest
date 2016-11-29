@@ -1,5 +1,6 @@
 package com.example.kim.triple;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -65,55 +66,54 @@ public class Select_Place extends Fragment {
         ListView listview = (ListView) view.findViewById(R.id.listView2);
         listview.setAdapter(adapter);
 
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res1),
-                "족발보쌈있는집", ContextCompat.getDrawable(getActivity(),R.drawable.res1_1));
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res2),
-                "머꼬또떡볶이-신암점", ContextCompat.getDrawable(getActivity(),R.drawable.res2_2));
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res3),
-                "파스토보이-경대점",  ContextCompat.getDrawable(getActivity(),R.drawable.res3_3));
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res4),
-                "깻잎두마리칩킨-산격점", ContextCompat.getDrawable(getActivity(),R.drawable.res4_4));
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res1),
-                "족발보쌈있는집", ContextCompat.getDrawable(getActivity(),R.drawable.res1_1));
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res2),
-                "머꼬또떡볶이-신암점",ContextCompat.getDrawable(getActivity(),R.drawable.res2_2));
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res3),
-                "파스토보이-경대점", ContextCompat.getDrawable(getActivity(),R.drawable.res3_3));
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res4),
-                "깻잎두마리칩킨-산격점", ContextCompat.getDrawable(getActivity(),R.drawable.res4_4));
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res1),
-                "족발보쌈있는집", ContextCompat.getDrawable(getActivity(),R.drawable.res1_1));
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res2),
-                "머꼬또떡볶이-신암점",ContextCompat.getDrawable(getActivity(),R.drawable.res2_2));
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res3),
-                "파스토보이-경대점", ContextCompat.getDrawable(getActivity(),R.drawable.res3_3));
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.res4),
-                "깻잎두마리칩킨-산격점", ContextCompat.getDrawable(getActivity(),R.drawable.res4_4));
-
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place1),
+                "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place2),
+                "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place3),
+                "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place4),
+                "한림공원 국화축제2016","[관광지] 제주도 서귀포시","제주특별자치도 제주시 한림읍 한림로 300(한림읍)" );
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place1),
+                "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place2),
+                "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place3),
+                "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place4),
+                "한림공원 국화축제2016","[관광지] 제주도 서귀포시","제주특별자치도 제주시 한림읍 한림로 300(한림읍)" );
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place1),
+                "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place2),
+                "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place3),
+                "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
+        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place4),
+                "한림공원 국화축제2016","[관광지] 제주도 서귀포시","제주특별자치도 제주시 한림읍 한림로 300(한림읍)" );
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 // get item
                 ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
 
-                Res_name = item.getTitle() ;
+                //Res_name = item.getTitle() ;
 
                 //Drawable iconDrawable = item.getIcon() ;
 
-                /*
-                Intent intent = new Intent(getContext(), Res_Information.class);
+
+                Intent intent = new Intent(getContext(), Place_MissionInfo.class);
 
                 // SINGLE_TOP : 이미 만들어진게 있으면 그걸 쓰고, 없으면 만들어서 써라
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                 // intent를 보내면서 다음 액티비티로부터 데이터를 받기 위해 식별번호(1000)을 준다.
-                intent.putExtra("ResName", Res_name);
+                //intent.putExtra("ResName", Res_name);
 
                 //intent.putParcelableArrayListExtra("ResMenu",Res_menu);
 
                 startActivityForResult(intent, 1030);
 
-                */
+
                 // TODO : use item data.
             }
         }) ;

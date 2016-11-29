@@ -1,6 +1,5 @@
 package com.example.kim.triple;
 
-import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,7 +19,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class Place_MissionInfo extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -36,17 +35,11 @@ public class MainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    public int[] tabIcons = {
-            R.drawable.ic_menu_camera,
-            R.drawable.ic_menu_gallery,
-            R.drawable.ic_menu_manage,
-            R.drawable.ic_menu_send,};
-    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_place__mission_info);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,15 +51,8 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-
-
-        tabLayout.setTabTextColors(Color.parseColor("#000000"),Color.parseColor("#e80606"));
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-
-
-         setupTabIcons();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -79,18 +65,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setupTabIcons(){
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_place__mission_info, menu);
         return true;
     }
 
@@ -137,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_place__mission_info, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
@@ -156,51 +135,26 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = null;
-            Bundle args = null;
-            switch(position){
-                case 0:
-                    //////////넣을 프레그먼트
-                    fragment = new Select_Place();
-                    args = new Bundle();
-                    break;
-                case 1:
-                    fragment = new Select_Place();
-                    args = new Bundle();
-                    break;
-                case 2:
-                    fragment = new Select_Place();
-                    args = new Bundle();
-                    break;
-                case 3:
-                    fragment = new Select_Place();
-                    args = new Bundle();
-                    break;
-
-            }
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            // return PlaceholderFragment.newInstance(position + 1);
-            return fragment;
+            return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
         public int getCount() {
-            // Show 5 total pages.
-            return 4;
+            // Show 3 total pages.
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "관광지 선택";
+                    return "SECTION 1";
                 case 1:
-                    return "수행 미션";
+                    return "SECTION 2";
                 case 2:
-                    return "랭킹 페이지";
-                case 3:
-                    return "내 정보";
+                    return "SECTION 3";
             }
             return null;
         }
