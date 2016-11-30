@@ -111,8 +111,8 @@ public class Select_Place extends Fragment {
 
                 // intent를 보내면서 다음 액티비티로부터 데이터를 받기 위해 식별번호(1000)을 준다.
                 intent.putExtra("place_name", place_name);
-                intent.putExtra("place_info1",place_info1);
-                intent.putExtra("place_info2",place_info2);
+                intent.putExtra("place_tag",place_info1);
+                intent.putExtra("place_address",place_info2);
                 /////이미지 넘기기
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 place_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
