@@ -1,14 +1,17 @@
 package com.example.kim.triple;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import java.io.ByteArrayOutputStream;
 
 public class Select_Place extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -21,7 +24,6 @@ public class Select_Place extends Fragment {
     private String mParam2;
 
     ListView listview;
-    String Res_name;
 
     public Select_Place() {
         // Required empty public constructor
@@ -66,40 +68,41 @@ public class Select_Place extends Fragment {
         ListView listview = (ListView) view.findViewById(R.id.listView2);
         listview.setAdapter(adapter);
 
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place1),
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place1),
                 "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place2),
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place2),
                 "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place3),
+        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place3),
                 "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place4),
+        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place4),
                 "한림공원 국화축제2016","[관광지] 제주도 서귀포시","제주특별자치도 제주시 한림읍 한림로 300(한림읍)" );
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place1),
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place1),
                 "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place2),
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place2),
                 "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place3),
+        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place3),
                 "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place4),
+        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place4),
                 "한림공원 국화축제2016","[관광지] 제주도 서귀포시","제주특별자치도 제주시 한림읍 한림로 300(한림읍)" );
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place1),
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place1),
                 "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place2),
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place2),
                 "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place3),
+        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place3),
                 "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.jeju_place4),
+        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place4),
                 "한림공원 국화축제2016","[관광지] 제주도 서귀포시","제주특별자치도 제주시 한림읍 한림로 300(한림읍)" );
+
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 // get item
                 ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
 
-                //Res_name = item.getTitle() ;
-
-                //Drawable iconDrawable = item.getIcon() ;
-
+                String place_name = item.getTitle();
+                String place_info1 = item.getDesc();
+                String place_info2 = item.getDesc2();
+                Bitmap place_bitmap = item.getIcon() ;
 
                 Intent intent = new Intent(getContext(), Place_MissionInfo.class);
 
@@ -107,12 +110,19 @@ public class Select_Place extends Fragment {
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                 // intent를 보내면서 다음 액티비티로부터 데이터를 받기 위해 식별번호(1000)을 준다.
-                //intent.putExtra("ResName", Res_name);
+                intent.putExtra("place_name", place_name);
+                intent.putExtra("place_info1",place_info1);
+                intent.putExtra("place_info2",place_info2);
+                /////이미지 넘기기
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                place_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                intent.putExtra("place_image",byteArray);
+                startActivity(intent);
+
+
 
                 //intent.putParcelableArrayListExtra("ResMenu",Res_menu);
-
-                startActivityForResult(intent, 1030);
-
 
                 // TODO : use item data.
             }

@@ -1,7 +1,10 @@
 package com.example.kim.triple;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,11 +50,17 @@ public class ListViewAdapter extends BaseAdapter {
         TextView descTextView = (TextView) convertView.findViewById(R.id.textView2) ;
         TextView desc2TextView = (TextView) convertView.findViewById(R.id.textView3) ;
 
+        ///////////////
+        iconImageView.setBackground(new ShapeDrawable((new OvalShape())));
+        iconImageView.setClipToOutline(true);
+
+
+
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         ListViewItem listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        iconImageView.setImageDrawable(listViewItem.getIcon());
+        iconImageView.setImageBitmap(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getTitle());
         descTextView.setText(listViewItem.getDesc());
         desc2TextView.setText(listViewItem.getDesc2());
@@ -73,7 +82,7 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable icon, String title, String desc, String desc2) {
+    public void addItem(Bitmap icon, String title, String desc, String desc2) {
         ListViewItem item = new ListViewItem();
 
         item.setIcon(icon);
