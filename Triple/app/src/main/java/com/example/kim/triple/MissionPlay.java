@@ -3,24 +3,22 @@ package com.example.kim.triple;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class Place_MissionInfo extends AppCompatActivity {
+public class MissionPlay extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_place__mission_info);
+        setContentView(R.layout.activity_mission_play);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
@@ -29,23 +27,47 @@ public class Place_MissionInfo extends AppCompatActivity {
         byte[] arr = getIntent().getByteArrayExtra("place_image");
         Bitmap image;
         image = BitmapFactory.decodeByteArray(arr, 0, arr.length);
-        ImageView detail_ImageView = (ImageView)findViewById(R.id.backdrop);
+        ImageView detail_ImageView = (ImageView) findViewById(R.id.backdrop);
         detail_ImageView.setImageBitmap(image);
         // detail_ImageView.setImageResource(R.drawable.res1);
 
         CollapsingToolbarLayout ctl = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         ctl.setTitle(intent.getStringExtra("place_name"));
-
-        TextView tag = (TextView) findViewById(R.id.detailText1) ;
+        final TextView tag = (TextView) findViewById(R.id.detailText1);
         TextView phone = (TextView) findViewById(R.id.detailText2);
-        TextView address = (TextView) findViewById(R.id.detailText3) ;
+        TextView address = (TextView) findViewById(R.id.detailText3);
+        tag.setText("미션대기");
+        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.floatActionBtn);
+        final myToggle mytoggle = new myToggle();
+        mytoggle.setToggle(true);
+        final Intent serviceintent = new Intent(this, BackgroundSensorService.class);
+
+        myFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mytoggle.getToggle()) {
+                    tag.setText("미션시작");
+                    startService(serviceintent);
+                    mytoggle.setToggle(false);
+                } else {
+                    tag.setText("미션대기");
+                    mytoggle.setToggle(true);
+
+                }
+
+            }
+        });
+
+        /*
+
 
         tag.setText("Tag : "+intent.getStringExtra("place_tag"));
         address.setText("주소 : "+intent.getStringExtra("place_address"));
         phone.setText("전화번호 : "+"010 - 7272 - 3768");
 
-       /* ArrayList<String> arrName = new ArrayList<String>();
+        ArrayList<String> arrName = new ArrayList<String>();
         ArrayAdapter<String> adapName = new ArrayAdapter<String>(getActivity(),R.layout.item,R.id.name,arrName);*/
+        /*
         MissionViewAdapter adapter = new MissionViewAdapter();
         ListView listview = (ListView) findViewById(R.id.MissionList);
         listview.setAdapter(adapter);
@@ -76,6 +98,17 @@ public class Place_MissionInfo extends AppCompatActivity {
                 // TODO : use item data.
             }
         }) ;
-
+*/
     }
+    private class myToggle{
+        private boolean myflag;
+        myToggle(){}
+        public boolean getToggle(){
+            return myflag;
+        }
+        public void setToggle(boolean arg){
+            myflag = arg;
+        }
+    }
+
 }

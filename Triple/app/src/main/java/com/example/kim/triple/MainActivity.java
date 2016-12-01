@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     args = new Bundle();
                     break;
                 case 1:
-                    fragment = new Select_Place();
+                    fragment = new MissionCartList();
                     args = new Bundle();
                     break;
                 case 2:
