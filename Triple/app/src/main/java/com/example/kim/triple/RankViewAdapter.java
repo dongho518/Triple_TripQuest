@@ -47,6 +47,7 @@ public class RankViewAdapter extends BaseAdapter {
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1) ;
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
         TextView descTextView = (TextView) convertView.findViewById(R.id.textView2) ;
+        TextView descTextView2 = (TextView)convertView.findViewById(R.id.textView3);
 
         ///////////////
         iconImageView.setBackground(new ShapeDrawable((new OvalShape())));
@@ -61,6 +62,7 @@ public class RankViewAdapter extends BaseAdapter {
         iconImageView.setImageBitmap(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getTitle());
         descTextView.setText(listViewItem.getDesc());
+        descTextView2.setText(listViewItem.getDesc2());
 
 
         return convertView;

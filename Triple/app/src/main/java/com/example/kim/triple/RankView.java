@@ -3,6 +3,8 @@ package com.example.kim.triple;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 
@@ -76,36 +79,51 @@ public class RankView extends Fragment {
         ArrayAdapter<String> adapName = new ArrayAdapter<String>(getActivity(),R.layout.item,R.id.name,arrName);*/
         RankViewAdapter adapter = new RankViewAdapter();
         ListView listview = (ListView) view.findViewById(R.id.RankView);
+
+        TextView mytextview1 = (TextView) view.findViewById(R.id.mytextView1);
+        TextView mytextview2 = (TextView) view.findViewById(R.id.mytextView2);
+        TextView mytextview3 = (TextView) view.findViewById(R.id.mytextView3);
+        ImageView myimageview1 = (ImageView) view.findViewById(R.id.myimageView);
+        myimageview1.setBackground(new ShapeDrawable((new OvalShape())));
+        myimageview1.setClipToOutline(true);
+
+
+        mytextview1.setText("03");
+        mytextview2.setText("김동호");
+        mytextview3.setText("2400");
+        myimageview1.setImageResource(R.drawable.porfil1);
+
         listview.setAdapter(adapter);
 
         //버전 체크필요
         listview.setNestedScrollingEnabled(true);
 
 
+
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
-                "01","오시훈","");
+                "01","오시훈","3300");
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
-                "02","김현욱","" );
+                "02","김현욱","2700" );
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.porfil1),
-                "03","김동호","");
+                "03","김동호","2400");
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
-                "04","안성훈","" );
+                "04","안성훈","2100" );
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
-                "05","강승규","");
+                "05","강승규","2100");
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
-                "06","김동욱","" );
+                "06","김동욱","1900" );
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
-                "07","이호승","");
+                "07","이호승","1900");
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
-                "08","김성현","" );
+                "08","김성현","1800" );
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
-                "09","김미수","");
+                "09","김미수","1700");
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
-                "10","이환일","" );
+                "10","이환일","1600" );
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
-                "11","이홍주","");
+                "11","이홍주","1500");
         adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
-                "12","이효인","" );
+                "12","이효인","1400" );
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
