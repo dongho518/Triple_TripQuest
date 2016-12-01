@@ -84,6 +84,7 @@ public class DatabaseConnection {
     public void execSQL(String sql){
         db.execSQL(sql);
     }
+
     private class DatabaseHelper extends SQLiteOpenHelper {
 
         public DatabaseHelper(Context context) {
@@ -92,13 +93,13 @@ public class DatabaseConnection {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            createUserTable();
-            createMissionTable();
-            createMissionCartTable();
-            createTripLocationTable();
+            createUserTable(db);
+            createMissionTable(db);
+            createMissionCartTable(db);
+            createTripLocationTable(db);
         }
 
-        private void createUserTable(){
+        private void createUserTable(SQLiteDatabase db){
             String DROP_SQL = "DROP TABLE if exists " + USER_TABLE_NAME;
             String CREATE_SQL = "CREATE TABLE IF NOT EXISTS " + USER_TABLE_NAME + " (" +
                     "_id integer not null primary key autoincrement," +
@@ -109,7 +110,7 @@ public class DatabaseConnection {
             db.execSQL(CREATE_SQL);
         }
 
-        private void createMissionTable() {
+        private void createMissionTable(SQLiteDatabase db) {
             String DROP_SQL = "DROP TABLE if exists " + MISSION_TABLE_NAME;
             String CREATE_SQL =
                     "CREATE TABLE IF NOT EXISTS " + MISSION_TABLE_NAME + " (" +
@@ -125,7 +126,7 @@ public class DatabaseConnection {
             db.execSQL(CREATE_SQL);
         }
 
-        private void createMissionCartTable() {
+        private void createMissionCartTable(SQLiteDatabase db) {
             String DROP_SQL = "DROP TABLE if exists " + MISSION_CART_TABLE_NAME;
             String CREATE_SQL =
                     "CREATE TABLE IF NOT EXISTS " + MISSION_CART_TABLE_NAME + " (" +
@@ -138,7 +139,7 @@ public class DatabaseConnection {
             db.execSQL(CREATE_SQL);
         }
 
-        private void createTripLocationTable() {
+        private void createTripLocationTable(SQLiteDatabase db) {
             String DROP_SQL = "DROP TABLE if exists " + TRIP_LOCATION_TABLE_NAME;
             String CREATE_SQL =
                     "CREATE TABLE IF NOT EXISTS " + TRIP_LOCATION_TABLE_NAME + " (" +
