@@ -14,6 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kim.triple.data.dao.MissionDao;
+import com.example.kim.triple.data.model.Mission;
+
+import java.util.List;
+
 public class Place_MissionInfo extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbar;
 
