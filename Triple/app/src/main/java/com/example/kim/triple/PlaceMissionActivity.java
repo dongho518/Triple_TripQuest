@@ -19,7 +19,7 @@ import com.example.kim.triple.data.model.Mission;
 
 import java.util.List;
 
-public class Place_MissionInfo extends AppCompatActivity {
+public class PlaceMissionActivity extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbar;
 
     @Override

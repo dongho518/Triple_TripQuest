@@ -136,7 +136,7 @@ public class RankView extends Fragment {
                 String place_info2 = item.getDesc2();
                 Bitmap place_bitmap = item.getIcon() ;
 
-                Intent intent = new Intent(getContext(), Place_MissionInfo.class);
+                Intent intent = new Intent(getContext(), PlaceMissionActivity.class);
 
                 // SINGLE_TOP : 이미 만들어진게 있으면 그걸 쓰고, 없으면 만들어서 써라
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
