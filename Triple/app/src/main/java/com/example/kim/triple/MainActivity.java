@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        TripLocationDao tripLocationDao = new TripLocationDao(this);
+        TripLocation trip = new TripLocation();
+        trip.setAddress("sss").setName("aaa").setPhoneNumber("sdfds").setPicture("sdfds").setTag("sdfds");
+        tripLocationDao.insert(trip);
     }
 
     private void setupTabIcons(){
