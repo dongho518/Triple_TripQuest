@@ -37,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     public int[] tabIcons = {
-            R.drawable.ic_menu_camera,
-            R.drawable.ic_menu_gallery,
-            R.drawable.ic_menu_manage,
-            R.drawable.ic_menu_send,};
+            R.drawable.search,
+            R.drawable.mission,
+            R.drawable.rank,
+            R.drawable.user};
     private TabLayout tabLayout;
 
     @Override
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                     args = new Bundle();
                     break;
                 case 2:
-                    fragment = new Select_Place();
+                    fragment = new RankView();
                     args = new Bundle();
                     break;
                 case 3:

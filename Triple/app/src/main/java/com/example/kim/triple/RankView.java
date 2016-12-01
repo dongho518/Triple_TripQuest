@@ -4,16 +4,21 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.io.ByteArrayOutputStream;
 
-public class Select_Place extends Fragment {
+
+public class RankView extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -23,9 +28,7 @@ public class Select_Place extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    ListView listview;
-
-    public Select_Place() {
+    public RankView() {
         // Required empty public constructor
     }
 
@@ -38,8 +41,8 @@ public class Select_Place extends Fragment {
      * @return A new instance of fragment FRAGMENT1.
      */
     // TODO: Rename and change types and number of parameters
-    public static Select_Place newInstance(String param1, String param2) {
-        Select_Place fragment = new Select_Place();
+    public static RankView newInstance(String param1, String param2) {
+        RankView fragment = new RankView();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -58,46 +61,57 @@ public class Select_Place extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_rank_view,null);
 
-        View view = inflater.inflate(R.layout.fragment_select__place,null);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
+        CollapsingToolbarLayout ctl = (CollapsingToolbarLayout)view.findViewById(R.id.collapsing_toolbar);
+        ctl.setTitle("미션지: 퍼시픽랜드");
+
+        ImageView cur_missionView = (ImageView)view.findViewById(R.id.backdrop);
+        cur_missionView.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place3));
 
        /* ArrayList<String> arrName = new ArrayList<String>();
         ArrayAdapter<String> adapName = new ArrayAdapter<String>(getActivity(),R.layout.item,R.id.name,arrName);*/
-        ListViewAdapter adapter = new ListViewAdapter();
-        ListView listview = (ListView) view.findViewById(R.id.listView2);
+        RankViewAdapter adapter = new RankViewAdapter();
+        ListView listview = (ListView) view.findViewById(R.id.RankView);
         listview.setAdapter(adapter);
 
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place1),
-                "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place2),
-                "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
-        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place3),
-                "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
-        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place4),
-                "한림공원 국화축제2016","[관광지] 제주도 서귀포시","제주특별자치도 제주시 한림읍 한림로 300(한림읍)" );
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place1),
-                "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place2),
-                "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
-        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place3),
-                "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
-        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place4),
-                "한림공원 국화축제2016","[관광지] 제주도 서귀포시","제주특별자치도 제주시 한림읍 한림로 300(한림읍)" );
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place1),
-                "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place2),
-                "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
-        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place3),
-                "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
-        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place4),
-                "한림공원 국화축제2016","[관광지] 제주도 서귀포시","제주특별자치도 제주시 한림읍 한림로 300(한림읍)" );
+        //버전 체크필요
+        listview.setNestedScrollingEnabled(true);
+
+
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
+                "01","오시훈","");
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
+                "02","김현욱","" );
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.porfil1),
+                "03","김동호","");
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
+                "04","안성훈","" );
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
+                "05","강승규","");
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
+                "06","김동욱","" );
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
+                "07","이호승","");
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
+                "08","김성현","" );
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
+                "09","김미수","");
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
+                "10","이환일","" );
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
+                "11","이홍주","");
+        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.null_photo),
+                "12","이효인","" );
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 // get item
-                ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
+                RankViewItem item = (RankViewItem) parent.getItemAtPosition(position) ;
 
                 String place_name = item.getTitle();
                 String place_info1 = item.getDesc();
