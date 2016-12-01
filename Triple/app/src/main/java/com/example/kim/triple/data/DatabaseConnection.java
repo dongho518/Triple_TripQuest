@@ -25,7 +25,7 @@ public class DatabaseConnection {
     public static final String USER_TABLE_NAME = "user";
     public static final String MISSION_TABLE_NAME = "mission";
     public static final String TRIP_LOCATION_TABLE_NAME = "trip_location";
-    public static final String MISSION_CART_TABLE_NAME = "misiion_cart";
+    public static final String MISSION_CART_TABLE_NAME = "mission_cart";
 
     public static final int TABLE_VERSION = 1;
 
@@ -47,13 +47,33 @@ public class DatabaseConnection {
 
         return dbConnection;
     }
+    private void checkFolder()
+    {
+         File folder = new File(ROOT_DIR);
+        File file = new File(ROOT_DIR + "/" + DB_NAME);
 
+        try {
+            if (folder.exists()) {
+            } else {
+                folder.mkdirs();
+            }
+
+            if (file.exists()) {
+                file.delete();
+                file.createNewFile();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     public boolean open()
     {
         if(dbHelper == null)
         {
-            dbHelper = new DatabaseHelper(context);
-            db = dbHelper.getReadableDatabase();
+            checkFolder();
+                dbHelper = new DatabaseHelper(context);
+                db = dbHelper.getReadableDatabase();
+                Log.e("aaa","bbbb");
         }
         if(db == null){
             return false;
@@ -97,6 +117,7 @@ public class DatabaseConnection {
             createMissionTable(db);
             createMissionCartTable(db);
             createTripLocationTable(db);
+            Log.e("DATABASE_CONNECTION", "onCreate");
         }
 
         private void createUserTable(SQLiteDatabase db){

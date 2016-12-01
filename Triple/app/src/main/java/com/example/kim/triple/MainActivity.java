@@ -20,6 +20,9 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.example.kim.triple.data.dao.TripLocationDao;
+import com.example.kim.triple.data.model.TripLocation;
+
 public class MainActivity extends AppCompatActivity {
 
     /**
@@ -76,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
     }
 
     private void setupTabIcons(){

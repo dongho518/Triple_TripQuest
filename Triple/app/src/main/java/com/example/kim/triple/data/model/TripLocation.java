@@ -16,24 +16,27 @@ public class TripLocation {
         return id;
     }
 
-    public void setName(String name) {
+    public TripLocation setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setId(int id) {
+    public TripLocation setId(int id) {
         this.id = id;
+        return this;
     }
 
     public String getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public TripLocation setPicture(String picture) {
         this.picture = picture;
+        return this;
     }
 
     public String getPhoneNumber() {
@@ -44,19 +47,22 @@ public class TripLocation {
         return tag;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public TripLocation setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
     }
 
-    public void setTag(String tag) {
+    public TripLocation setTag(String tag) {
         this.tag = tag;
+        return this;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public TripLocation setAddress(String address) {
         this.address = address;
+        return this;
     }
 }

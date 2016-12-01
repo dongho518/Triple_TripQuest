@@ -26,19 +26,23 @@ public class MissionCart {
         return userId;
     }
 
-    public void setId(int id) {
+    public MissionCart setId(int id) {
         this.id = id;
+        return this;
     }
 
-    public void setMissionId(int missionId) {
+    public MissionCart setMissionId(int missionId) {
         this.missionId = missionId;
+        return this;
     }
 
-    public void setUserId(int userId) {
+    public MissionCart setUserId(int userId) {
         this.userId = userId;
+        return this;
     }
 
-    public void setMissionResult(int missionResult) {
+    public MissionCart setMissionResult(int missionResult) {
         this.missionResult = missionResult;
+        return this;
     }
 }
