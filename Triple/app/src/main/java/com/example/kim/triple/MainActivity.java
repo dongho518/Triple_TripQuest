@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                     args = new Bundle();
                     break;
                 case 3:
-                    fragment = new Select_Place();
+                    fragment = new MyInformation();
                     args = new Bundle();
                     break;
 
