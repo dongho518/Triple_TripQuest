@@ -1,8 +1,13 @@
 package com.example.kim.triple;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +20,27 @@ import android.widget.TextView;
 import com.example.kim.triple.data.dao.MissionDao;
 import com.example.kim.triple.data.model.Mission;
 
+import org.w3c.dom.Text;
+
 public class MissionPlay extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbar;
     private int UserId = 1010;
+    private IMissionAidlInterface binder;
+    private boolean runningFlag = true;
+    private TextView missionInfoTextView;
+    private TextView stepTextView;
+    private TextView barometerTextView;
+    int missionId;
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            binder = IMissionAidlInterface.Stub.asInterface(service);
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +52,7 @@ public class MissionPlay extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        int missionId = intent.getIntExtra("mission_id",1);
+        missionId = intent.getIntExtra("mission_id",1);
 
         MissionDao missionDao = new MissionDao(this);
         Mission mission = missionDao.selectFromId(missionId);
@@ -44,7 +67,24 @@ public class MissionPlay extends AppCompatActivity {
         final TextView tag = (TextView) findViewById(R.id.detailText1);
         TextView phone = (TextView) findViewById(R.id.detailText2);
         TextView address = (TextView) findViewById(R.id.detailText3);
+        missionInfoTextView = (TextView) findViewById(R.id.missionInfo_textview);
+        stepTextView = (TextView) findViewById(R.id.step_textview);
+        barometerTextView = (TextView) findViewById(R.id.barometer_textview);
 
+        missionInfoTextView.setVisibility(View.INVISIBLE);
+        barometerTextView.setVisibility(View.INVISIBLE);
+        stepTextView.setVisibility(View.INVISIBLE);
+
+        if(missionId == 1) {
+            missionInfoTextView.setVisibility(View.VISIBLE);
+        } else if(missionId == 2)
+        {
+            barometerTextView.setVisibility(View.VISIBLE);
+        }else if(missionId ==3){
+
+        }else{
+            stepTextView.setVisibility(View.VISIBLE);
+        }
 
         tag.setText("미션대기");
         FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.floatActionBtn);
@@ -57,59 +97,20 @@ public class MissionPlay extends AppCompatActivity {
             public void onClick(View v) {
                 if (mytoggle.getToggle()) {
                     tag.setText("미션시작");
-                    startService(serviceintent);
+                    serviceintent.putExtra("mission_id",missionId);
+                    bindService(serviceintent, connection, BIND_AUTO_CREATE);
                     mytoggle.setToggle(false);
+                    Thread startSpeed = new Thread(new GetSpeedThread());
+                    startSpeed.start();
                 } else {
                     tag.setText("미션대기");
                     mytoggle.setToggle(true);
-
+                    unbindService(connection);
                 }
-
             }
         });
-
-        /*
-
-
-        tag.setText("Tag : "+intent.getStringExtra("place_tag"));
-        address.setText("주소 : "+intent.getStringExtra("place_address"));
-        phone.setText("전화번호 : "+"010 - 7272 - 3768");
-
-        ArrayList<String> arrName = new ArrayList<String>();
-        ArrayAdapter<String> adapName = new ArrayAdapter<String>(getActivity(),R.layout.item,R.id.name,arrName);*/
-        /*
-        MissionViewAdapter adapter = new MissionViewAdapter();
-        ListView listview = (ListView) findViewById(R.id.MissionList);
-        listview.setAdapter(adapter);
-        //버전 체크필요
-        listview.setNestedScrollingEnabled(true);
-
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place1),
-                "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place2),
-                "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
-        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place3),
-                "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
-        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place4),
-                "한림공원 국화축제2016","[관광지] 제주도 서귀포시","제주특별자치도 제주시 한림읍 한림로 300(한림읍)" );
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-                // get item
-                MissionViewItem item = (MissionViewItem) parent.getItemAtPosition(position) ;
-
-                String place_name = item.getTitle();
-                String place_info1 = item.getDesc();
-                String place_info2 = item.getDesc2();
-                Bitmap place_bitmap = item.getIcon() ;
-
-                Toast.makeText(getApplicationContext(),place_name+" 미션이 선택 되었습니다.", Toast.LENGTH_SHORT).show();
-                // TODO : use item data.
-            }
-        }) ;
-*/
     }
+
     private class myToggle{
         private boolean myflag;
         myToggle(){}
@@ -119,6 +120,49 @@ public class MissionPlay extends AppCompatActivity {
         public void setToggle(boolean arg){
             myflag = arg;
         }
+    }
+
+    class GetSpeedThread implements Runnable{
+        private Handler handler = new Handler();
+
+        public void run(){
+            while(runningFlag){
+                if(binder == null){
+                    continue;
+                }
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            if(missionId == 1) {
+                                missionInfoTextView.setVisibility(View.VISIBLE);
+                                missionInfoTextView.setText(String.valueOf(binder.get_speed()));
+
+                            } else if(missionId == 2)
+                            {
+                                barometerTextView.setText(String.valueOf(binder.getBarometer()));
+                            }else if(missionId ==3){
+
+                            }else{
+                                stepTextView.setText(String.valueOf(binder.getStep()));
+                            }
+
+                        }catch (RemoteException e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                try {
+                    Thread.sleep(500);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
     }
 
 }

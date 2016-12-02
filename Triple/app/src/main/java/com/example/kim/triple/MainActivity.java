@@ -261,28 +261,28 @@ public class MainActivity extends AppCompatActivity {
         MissionDao missionDao = new MissionDao(this);
         Mission mission = new Mission();
         mission.setName("마라톤미션").setExplan("A에서B까지 가시오").setImageUrl("maraton")
-                .setTripLocationId(3)
-                .setClassification(0)
-                .setEndTime(10)
-                .setLatitude("123")
-                .setLongitude("32");
-        missionDao.insert(mission);
-        mission.setName("페러글라이딩미션").setExplan("A에서 시오").setImageUrl("fly")
                 .setTripLocationId(1)
                 .setClassification(0)
                 .setEndTime(10)
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);
-        mission.setName("마라톤미션").setExplan("A에서B까지 가시오").setImageUrl("maraton")
+        mission.setName("페러글라이딩미션").setExplan("A에서 나시오").setImageUrl("fly")
                 .setTripLocationId(1)
                 .setClassification(0)
                 .setEndTime(10)
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);
-        mission.setName("마라톤미션").setExplan("A에서B까지 가시오").setImageUrl("maraton")
-                .setTripLocationId(2)
+        mission.setName("고온미션").setExplan("더운 곳으로 가시오").setImageUrl("hot")
+                .setTripLocationId(1)
+                .setClassification(0)
+                .setEndTime(10)
+                .setLatitude("123")
+                .setLongitude("32");
+        missionDao.insert(mission);
+        mission.setName("만보미션").setExplan("만보이상 걸으시오").setImageUrl("walk")
+                .setTripLocationId(1)
                 .setClassification(0)
                 .setEndTime(10)
                 .setLatitude("123")

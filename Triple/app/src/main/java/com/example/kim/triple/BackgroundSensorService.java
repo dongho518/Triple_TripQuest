@@ -14,17 +14,54 @@ import android.util.Log;
  * Created by khwbori on 2016. 12. 1..
  */
 
-public class BackgroundSensorService extends IntentService {
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.example.kim.triple.data.dao.MissionDao;
+import com.example.kim.triple.data.model.Mission;
+
+/**
+ * Created by khwbori on 2016. 12. 1..
+ */
+
+public class BackgroundSensorService extends Service {
     private Step step;
     private Barometer barometer;
+    double mySpeed, maxSpeed;
 
-    public BackgroundSensorService(){
-        super("SensorBackgroundHere");
-    }
+    IMissionAidlInterface.Stub binder = new IMissionAidlInterface.Stub() {
+        @Override
+        public double get_speed() throws RemoteException {
+            return mySpeed;
+        }
+        public int getStep() throws RemoteException {
+            return step.getStep();
+        }
+        public float getBarometer() throws RemoteException{
+            return barometer.getBarometer();
+        }
+    };
+
+    /*
     @Override
     protected void onHandleIntent(Intent intent){
         step = new Step();
         barometer = new Barometer();
+
 
         step.stepCountStart();
         barometer.barometerCountStart();
@@ -35,20 +72,64 @@ public class BackgroundSensorService extends IntentService {
             e.printStackTrace();
         }
 
+    }*/
+
+    public IBinder onBind(Intent intent){
+        int missionId = intent.getIntExtra("mission_id",0);
+        Log.i("background Id",""+missionId);
+        MissionDao missionDao = new MissionDao(getApplicationContext());
+        Mission mission =missionDao.selectFromId(missionId);
+        if(missionId == 1){ //마라톤
+
+            Thread speedThread = new Thread(new Speedmeter());
+            speedThread.start();
+
+        }else if(missionId==2){ //페러글라이딩
+            Log.i("background 2 start","start");
+            barometer = new Barometer();
+            barometer.setTime(mission.getEndTime());
+            Thread barometerThread = new Thread(barometer);
+            int time = mission.getEndTime();
+            barometerThread.start();
+
+
+        }else if(missionId==3){ //온도
+
+        }else if(missionId==4){ //만보기
+            step = new Step();
+            step.setTime(mission.getEndTime());
+            Thread stepThread = new Thread(step);
+
+            int time = mission.getEndTime();
+            stepThread.start();
+            try{
+                Thread.sleep(1000*time);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            step.destroyStep();
+        }
+
+        return binder;
     }
     @Override
     public void onDestroy(){
+        super.onDestroy();
+        /*
         int mystep =  step.getStep();
         float barvalue = barometer.getBarometer();
         step.destroyStep();
         barometer.destroyBarometer();
-        Log.i("myStep", ""+mystep);
+         Log.i("myStep", ""+mystep);
         Log.i("mybarometer", ""+barvalue);
+*/
+
     }
     @Override
     public void onCreate() {
         // TODO 서비스 생성시에 호출
         super.onCreate();
+
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -58,13 +139,13 @@ public class BackgroundSensorService extends IntentService {
 
 
 
-    class Step{
+    class Step implements Runnable{
         private SensorManager sensorManager;
         private float previousY, currentY;
         private int steps;
         private int threshold;
+        private int time;
 
-        Step(){};
         private SensorEventListener stepDetector = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
@@ -85,7 +166,8 @@ public class BackgroundSensorService extends IntentService {
 
 
         };
-        public void stepCountStart(){
+        public Step(){
+            time = 5;
             threshold = 10;
             previousY = currentY = steps = 0;
             sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -93,7 +175,24 @@ public class BackgroundSensorService extends IntentService {
                     sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                     SensorManager.SENSOR_DELAY_NORMAL);
         };
+        public void setTime(int arg){
+            time = arg;
+        }
+        public void run(){
+            for(int i = 0; i<time; i++){
+                try{
+                    Thread.sleep(1000);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
 
+            try {
+                destroyStep();
+            }catch (SecurityException e){
+                e.printStackTrace();
+            }
+        }
         public int getStep(){
             return steps;
         };
@@ -103,14 +202,12 @@ public class BackgroundSensorService extends IntentService {
         }
     };
 
-    class Barometer {
+    class Barometer implements Runnable {
         //SensorManager lets you access the device's sensors
         //declare Variables
         private SensorManager sensorManager;
         private float barvalue;
-
-        Barometer(){};
-
+        private int time;
         private SensorEventListener barometerDetector = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
@@ -127,13 +224,31 @@ public class BackgroundSensorService extends IntentService {
         };
 
 
-        public void barometerCountStart(){
-
+        public Barometer(){
+            time=5;
             sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
             sensorManager.registerListener(barometerDetector,
                     sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE),
                     SensorManager.SENSOR_DELAY_NORMAL);
         };
+        public void setTime(int arg){
+            time = arg;
+        }
+        public void run(){
+            for(int i = 0; i<time; i++){
+                try{
+                    Thread.sleep(1000);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+
+            try {
+                destroyBarometer();
+            }catch (SecurityException e){
+                e.printStackTrace();
+            }
+        }
 
         public float getBarometer(){
             return barvalue;
@@ -144,4 +259,71 @@ public class BackgroundSensorService extends IntentService {
         }
 
     };
+
+    class Speedmeter implements Runnable{
+
+        private LocationManager lm;
+        private LocationListener ll;
+        private Handler handler;
+
+        public Speedmeter()
+        {
+            maxSpeed = mySpeed = 0;
+
+            lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            ll = new SpeedoActionListener();
+
+            try {
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,ll);
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
+        public void run(){
+            for(int i = 0; i<30; i++){
+
+                try{
+                    Thread.sleep(1000);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+            try {
+                lm.removeUpdates(ll);
+            }catch (SecurityException e){
+                e.printStackTrace();
+            }
+        }
+
+        private class SpeedoActionListener implements LocationListener {
+
+            @Override
+            public void onLocationChanged(Location location) {
+
+                if (location != null) {
+                    mySpeed = location.getSpeed();
+                    if (mySpeed > maxSpeed) {
+                        maxSpeed = mySpeed * (float)3.6;
+
+                    }
+                }
+            }
+            @Override
+            public void onProviderDisabled(String provider) {
+                // TODO Auto-generated method stub
+            }
+            @Override
+            public void onProviderEnabled(String provider) {
+                // TODO Auto-generated method stub
+            }
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                // TODO Auto-generated method stub
+            }
+        }
+    }
+
+
+
 }
