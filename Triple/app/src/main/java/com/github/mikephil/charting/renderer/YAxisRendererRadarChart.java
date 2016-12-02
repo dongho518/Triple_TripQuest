@@ -2,9 +2,8 @@ package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
 import android.graphics.Path;
-import android.graphics.PointF;
 
-import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.renderer.charts.RadarChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.utils.MPPointF;

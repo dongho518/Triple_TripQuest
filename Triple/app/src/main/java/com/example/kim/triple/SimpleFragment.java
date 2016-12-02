@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.mikephil.charting.charts.ScatterChart;
+import com.github.mikephil.charting.renderer.charts.ScatterChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -52,7 +52,7 @@ public abstract class SimpleFragment extends Fragment {
             
 //            entries = FileUtils.loadEntriesFromAssets(getActivity().getAssets(), "stacked_bars.txt");
             
-            for(int j = 0; j < count; j++) {        
+            for(int j = 0; j < count; j++) {
                 entries.add(new BarEntry(j, (float) (Math.random() * range) + range / 4));
             }
             
@@ -103,10 +103,14 @@ public abstract class SimpleFragment extends Fragment {
         String[] tendency = {"탐험가", "마라토너", "미식가", "페러글라이더"};
         ArrayList<PieEntry> entries1 = new ArrayList<PieEntry>();
         
-        for(int i = 0; i < count; i++) {
+        /*for(int i = 0; i < count; i++) {
             entries1.add(new PieEntry((float) ((Math.random() * 60) + 40), tendency[i]));
-        }
-        
+        }*/
+        entries1.add(new PieEntry((float) (10.4), tendency[0]));
+        entries1.add(new PieEntry((float) (32.1), tendency[1]));
+        entries1.add(new PieEntry((float) (24.3), tendency[2]));
+        entries1.add(new PieEntry((float) (33.2), tendency[3]));
+
         PieDataSet ds1 = new PieDataSet(entries1, "사용자 성향");
         ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
         ds1.setSliceSpace(2f);

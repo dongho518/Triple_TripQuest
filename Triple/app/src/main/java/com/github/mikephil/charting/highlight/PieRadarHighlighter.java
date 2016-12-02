@@ -1,7 +1,7 @@
 package com.github.mikephil.charting.highlight;
 
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.charts.PieRadarChartBase;
+import com.github.mikephil.charting.renderer.charts.PieChart;
+import com.github.mikephil.charting.renderer.charts.PieRadarChartBase;
 
 import java.util.ArrayList;
 import java.util.List;

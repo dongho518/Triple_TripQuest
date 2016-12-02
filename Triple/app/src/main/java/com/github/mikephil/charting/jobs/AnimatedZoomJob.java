@@ -6,7 +6,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Matrix;
 import android.view.View;
 
-import com.github.mikephil.charting.charts.BarLineChartBase;
+import com.github.mikephil.charting.renderer.charts.BarLineChartBase;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.utils.ObjectPool;
 import com.github.mikephil.charting.utils.Transformer;

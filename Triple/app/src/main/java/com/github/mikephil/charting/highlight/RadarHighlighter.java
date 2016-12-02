@@ -1,6 +1,6 @@
 package com.github.mikephil.charting.highlight;
 
-import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.renderer.charts.RadarChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.utils.MPPointF;

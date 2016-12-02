@@ -7,9 +7,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+
+import android.provider.ContactsContract;
+
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -68,8 +72,15 @@ public class MissionPreviewActivity extends AppCompatActivity {
         CollapsingToolbarLayout ctl = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         ctl.setTitle(mission.getName());
 
-        TextView centerText = (TextView) findViewById(R.id.detailText2);
-        centerText.setText("미션등록");
+        TextView enrolltext = (TextView) findViewById(R.id.enrolltextView1);
+        enrolltext.setText("미션등록");
+
+        TextView detailtext = (TextView) findViewById(R.id.detailtextView1);
+        detailtext.setText("1. 제한 시간 내에 미션시작 장소로 이동한다.\n\n" +
+                        "2. 미션시작 장소 반경 100M 안에서 상공 20M 지점으로 이동한다.");
+
+        ImageView map = (ImageView) findViewById(R.id.mapImageView);
+        map.setImageResource(R.drawable.sample_map);
 
         final MissionCartDao missionCartDao = new MissionCartDao(this);
 

@@ -1,5 +1,5 @@
 
-package com.github.mikephil.charting.charts;
+package com.github.mikephil.charting.renderer.charts;
 
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;

@@ -1,7 +1,7 @@
 
 package com.github.mikephil.charting.data;
 
-import com.github.mikephil.charting.charts.ScatterChart;
+import com.github.mikephil.charting.renderer.charts.ScatterChart;
 import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 import com.github.mikephil.charting.renderer.scatter.ChevronDownShapeRenderer;
 import com.github.mikephil.charting.renderer.scatter.ChevronUpShapeRenderer;

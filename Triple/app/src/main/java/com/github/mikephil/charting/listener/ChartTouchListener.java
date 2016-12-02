@@ -4,7 +4,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.renderer.charts.Chart;
 import com.github.mikephil.charting.highlight.Highlight;
 
 /**
