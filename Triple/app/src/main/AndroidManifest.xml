@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -37,6 +36,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MissionPlay"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -46,7 +46,12 @@
         <receiver
             android:name="broadcast.ProximityIntentReceiver"
             android:enabled="true"
-            android:exported="false"></receiver>
+            android:exported="false" />
+
+        <activity
+            android:name=".MissionPreviewActivity"
+            android:theme = "@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

@@ -5,13 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.kim.triple.data.dao.MissionCartDao;
+import com.example.kim.triple.data.dao.MissionDao;
+import com.example.kim.triple.data.model.Mission;
+import com.example.kim.triple.data.model.MissionCart;
+
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 
 public class MissionCartList extends Fragment {
@@ -23,6 +30,7 @@ public class MissionCartList extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private int UserId = 1010;
 
     ListView listview;
 
@@ -62,29 +70,33 @@ public class MissionCartList extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mission_cart_list,null);
 
-        MissionCartAdapter adapter = new MissionCartAdapter();
+
+        MissionCartDao missionCartDao = new MissionCartDao(this.getContext());
+        List <MissionCart> missionlist = missionCartDao.selectFromUserId(1010);
+        MissionDao missionDao = new MissionDao(this.getContext());
+
+        MissionViewAdapter adapter = new MissionViewAdapter();
         ListView listview = (ListView) view.findViewById(R.id.missionCart_imageview);
         listview.setAdapter(adapter);
         //버전 체크필요
         listview.setNestedScrollingEnabled(true);
 
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place1),
-                "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place2),
-                "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
-        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place3),
-                "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
+        Log.i("missionCartlist",""+missionlist.size());
+        for(MissionCart elem: missionlist){
+            Log.i("missionCart",""+elem.getMissionId());
+            int missionId = elem.getMissionId();
+            Mission mission = missionDao.selectFromId(missionId);
+            adapter.addItem(mission.getId(), BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(mission.getImageUrl(), "drawable","com.example.kim.triple")),
+                    mission.getName(), mission.getExplan(),mission.getExplan());
+        }
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                // get item
+
                 MissionViewItem item = (MissionViewItem) parent.getItemAtPosition(position) ;
 
-                String place_name = item.getTitle();
-                String place_info1 = item.getDesc();
-                String place_info2 = item.getDesc2();
-                Bitmap place_bitmap = item.getIcon() ;
+                int missionId = item.getId();
 
                 Intent intent = new Intent(getContext(), MissionPlay.class);
 
@@ -92,18 +104,11 @@ public class MissionCartList extends Fragment {
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                 // intent를 보내면서 다음 액티비티로부터 데이터를 받기 위해 식별번호(1000)을 준다.
-                intent.putExtra("place_name", place_name);
-                intent.putExtra("place_tag",place_info1);
-                intent.putExtra("place_address",place_info2);
-                /////이미지 넘기기
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                place_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                intent.putExtra("place_image",byteArray);
+                intent.putExtra("mission_id",missionId);
+                // Toast.makeText(getApplicationContext(),place_name+" 미션이 선택 되었습니다.", Toast.LENGTH_SHORT).show();
+                // setupLocation();
+                // TODO : use item data.
                 startActivity(intent);
-
-
-
                 //intent.putParcelableArrayListExtra("ResMenu",Res_menu);
 
                 // TODO : use item data.

@@ -7,7 +7,9 @@ public class MissionViewItem {
     private String MtitleStr;
     private String MdescStr;
     private String MdescStr2;
+    private int id;
 
+    public void setId(int arg){id = arg;}
     public void setIcon(Bitmap icon) {
         MiconDrawable = icon;
     }
@@ -21,7 +23,7 @@ public class MissionViewItem {
         MdescStr2 = desc2;
     }
 
-    
+    public int getId(){return this.id; }
     public Bitmap getIcon() {
         return this.MiconDrawable;
     }

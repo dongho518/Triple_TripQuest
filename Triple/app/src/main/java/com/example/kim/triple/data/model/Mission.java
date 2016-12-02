@@ -12,6 +12,8 @@ public class Mission {
     private int classification;
     private int tripLocationId;
     private String ImageUrl;
+    private String Mname;
+    private String Mexplan;
 
     public int getId() {
         return id;
@@ -75,4 +77,16 @@ public class Mission {
         ImageUrl = imageUrl;
         return this;
     }
+    public Mission setName(String name){
+        Mname = name;
+        return this;
+    }
+    public String getName(){return Mname;}
+
+    public Mission setExplan(String explan){
+        Mexplan = explan;
+        return this;
+    }
+    public String getExplan(){return Mexplan;}
+
 }

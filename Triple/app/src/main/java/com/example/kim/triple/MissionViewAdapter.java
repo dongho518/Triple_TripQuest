@@ -72,9 +72,10 @@ public class MissionViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Bitmap icon, String title, String desc, String desc2) {
+    public void addItem(int id, Bitmap icon, String title, String desc, String desc2) {
         MissionViewItem item = new MissionViewItem();
 
+        item.setId(id);
         item.setIcon(icon);
         item.setTitle(title);
         item.setDesc(desc);

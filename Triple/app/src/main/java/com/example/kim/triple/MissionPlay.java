@@ -12,8 +12,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.kim.triple.data.dao.MissionDao;
+import com.example.kim.triple.data.model.Mission;
+
 public class MissionPlay extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbar;
+    private int UserId = 1010;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +27,25 @@ public class MissionPlay extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
+
         Intent intent = getIntent();
-        byte[] arr = getIntent().getByteArrayExtra("place_image");
-        Bitmap image;
-        image = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+        int missionId = intent.getIntExtra("mission_id",1);
+
+        MissionDao missionDao = new MissionDao(this);
+        Mission mission = missionDao.selectFromId(missionId);
+        Bitmap image = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(mission.getImageUrl(), "drawable","com.example.kim.triple"));
+
         ImageView detail_ImageView = (ImageView) findViewById(R.id.backdrop);
         detail_ImageView.setImageBitmap(image);
         // detail_ImageView.setImageResource(R.drawable.res1);
 
         CollapsingToolbarLayout ctl = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        ctl.setTitle(intent.getStringExtra("place_name"));
+        ctl.setTitle(mission.getName());
         final TextView tag = (TextView) findViewById(R.id.detailText1);
         TextView phone = (TextView) findViewById(R.id.detailText2);
         TextView address = (TextView) findViewById(R.id.detailText3);
+
+
         tag.setText("미션대기");
         FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.floatActionBtn);
         final myToggle mytoggle = new myToggle();

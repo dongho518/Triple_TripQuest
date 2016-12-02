@@ -6,11 +6,13 @@ import android.graphics.Bitmap;
  * Created by Kim on 2016-11-29.
  */
     public class ListViewItem {
+    private int id;
     private Bitmap iconDrawable ;
     private String titleStr ;
     private String descStr ;
     private String descStr2 ;
 
+    public void setId(int arg){id = arg; }
     public void setIcon(Bitmap icon) {
         iconDrawable = icon ;
     }
@@ -24,6 +26,7 @@ import android.graphics.Bitmap;
         descStr2 = desc2 ;
     }
 
+    public int getId(){return this.id;}
     public Bitmap getIcon() {
         return this.iconDrawable ;
     }

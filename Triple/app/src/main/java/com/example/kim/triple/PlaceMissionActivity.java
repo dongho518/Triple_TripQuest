@@ -26,7 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kim.triple.data.dao.MissionDao;
+import com.example.kim.triple.data.dao.TripLocationDao;
 import com.example.kim.triple.data.model.Mission;
+import com.example.kim.triple.data.model.TripLocation;
 
 import java.util.List;
 
@@ -47,23 +49,30 @@ public class PlaceMissionActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        byte[] arr = getIntent().getByteArrayExtra("place_image");
-        Bitmap image;
-        image = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+        int tripId = intent.getIntExtra("place_id",2);
+
+        Log.i("tripId",""+tripId);
+        TripLocationDao tripLocationDao = new TripLocationDao(this);
+        TripLocation tripLocation = tripLocationDao.selectFromId(tripId);
+        Log.i("getTrip",tripLocation.getName());
+
+
+        Bitmap image = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(tripLocation.getPicture(), "drawable","com.example.kim.triple"));
         ImageView detail_ImageView = (ImageView)findViewById(R.id.backdrop);
         detail_ImageView.setImageBitmap(image);
         // detail_ImageView.setImageResource(R.drawable.res1);
 
         CollapsingToolbarLayout ctl = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        ctl.setTitle(intent.getStringExtra("place_name"));
+        ctl.setTitle(tripLocation.getName());
 
         TextView tag = (TextView) findViewById(R.id.detailText1) ;
         TextView phone = (TextView) findViewById(R.id.detailText2);
         TextView address = (TextView) findViewById(R.id.detailText3) ;
 
-        tag.setText("Tag : "+intent.getStringExtra("place_tag"));
-        address.setText("주소 : "+intent.getStringExtra("place_address"));
-        phone.setText("전화번호 : "+"010 - 7272 - 3768");
+        tag.setText("Tag : "+tripLocation.getTag());
+        address.setText("주소 : "+tripLocation.getAddress());
+        phone.setText("전화번호 : "+tripLocation.getPhoneNumber());
+
 
        /* ArrayList<String> arrName = new ArrayList<String>();
         ArrayAdapter<String> adapName = new ArrayAdapter<String>(getActivity(),R.layout.item,R.id.name,arrName);*/
@@ -73,14 +82,13 @@ public class PlaceMissionActivity extends AppCompatActivity {
         //버전 체크필요
         listview.setNestedScrollingEnabled(true);
 
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place1),
-                "대유랜드","[레포츠] 제주도서귀포시","제주특별자치도 서귀포시 상예로 381(상예동)");
-        adapter.addItem( BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place2),
-                "퍼시픽랜드","[관광지] 퍼시픽랜드","제주특별자치도 서귀포시 중문관광로 154-17(색달동)" );
-        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place3),
-                "한라산 트레킹","[레포츠] 제주도제주시","제주특별자치도 제주시 1100로 2070-61(해안동)"  );
-        adapter.addItem(BitmapFactory.decodeResource(getResources(),R.drawable.jeju_place4),
-                "한림공원 국화축제2016","[관광지] 제주도 서귀포시","제주특별자치도 제주시 한림읍 한림로 300(한림읍)" );
+        MissionDao missionDao = new MissionDao(this);
+        List<Mission> missionList = missionDao.selectFromTripId( tripId );
+
+        for(Mission elem : missionList){
+            adapter.addItem(elem.getId(), BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(elem.getImageUrl(), "drawable","com.example.kim.triple")),
+                    elem.getName(), elem.getExplan(),elem.getExplan());
+        }
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -88,14 +96,19 @@ public class PlaceMissionActivity extends AppCompatActivity {
                 // get item
                 MissionViewItem item = (MissionViewItem) parent.getItemAtPosition(position) ;
 
-                String place_name = item.getTitle();
-                String place_info1 = item.getDesc();
-                String place_info2 = item.getDesc2();
-                Bitmap place_bitmap = item.getIcon() ;
+                int missionId = item.getId();
 
-                Toast.makeText(getApplicationContext(),place_name+" 미션이 선택 되었습니다.", Toast.LENGTH_SHORT).show();
-                setupLocation();
+                Intent intent = new Intent(PlaceMissionActivity.this, MissionPreviewActivity.class);
+
+                // SINGLE_TOP : 이미 만들어진게 있으면 그걸 쓰고, 없으면 만들어서 써라
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                // intent를 보내면서 다음 액티비티로부터 데이터를 받기 위해 식별번호(1000)을 준다.
+                intent.putExtra("mission_id",missionId);
+               // Toast.makeText(getApplicationContext(),place_name+" 미션이 선택 되었습니다.", Toast.LENGTH_SHORT).show();
+               // setupLocation();
                 // TODO : use item data.
+                startActivity(intent);
             }
         }) ;
 

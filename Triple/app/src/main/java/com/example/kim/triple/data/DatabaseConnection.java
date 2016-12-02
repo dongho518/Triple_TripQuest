@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
 
 import com.example.kim.triple.R;
@@ -50,7 +51,7 @@ public class DatabaseConnection {
     private void checkFolder()
     {
          File folder = new File(ROOT_DIR);
-        File file = new File(ROOT_DIR + "/" + DB_NAME);
+         File file = new File(ROOT_DIR + "/" + DB_NAME);
 
         try {
             if (folder.exists()) {
@@ -73,6 +74,7 @@ public class DatabaseConnection {
             checkFolder();
                 dbHelper = new DatabaseHelper(context);
                 db = dbHelper.getReadableDatabase();
+               // dbHelper.onCreate(db);
                 Log.e("aaa","bbbb");
         }
         if(db == null){
@@ -105,10 +107,23 @@ public class DatabaseConnection {
         db.execSQL(sql);
     }
 
+
+    public void clear(){
+        if(dbHelper!=null){
+            db = dbHelper.getReadableDatabase();
+            dbHelper.initTable(db);
+        }
+        else{
+            dbHelper = new DatabaseHelper(context);
+            db = dbHelper.getReadableDatabase();
+            dbHelper.initTable(db);
+        }
+    }
     private class DatabaseHelper extends SQLiteOpenHelper {
 
         public DatabaseHelper(Context context) {
-            super(context, ROOT_DIR + "/" + DB_NAME, null, TABLE_VERSION);
+            super(context, DB_NAME, null, TABLE_VERSION);
+            Log.i("dir",""+Environment.getExternalStorageDirectory());
         }
 
         @Override
@@ -141,6 +156,8 @@ public class DatabaseConnection {
                             "longitude Char(128)," +
                             "classification integer," +
                             "tripLocationId integer,"+
+                            "name Char(128),"+
+                            "explan Char(128),"+
                             "imageUrl Char(128));";
 
             db.execSQL(DROP_SQL);
@@ -172,11 +189,19 @@ public class DatabaseConnection {
                             "address Char(128));";
 
             db.execSQL(DROP_SQL);
+            Log.i("DATABASE_Trip", DROP_SQL);
             db.execSQL(CREATE_SQL);
         }
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         }
+        private void initTable(SQLiteDatabase db){
+            createUserTable(db);
+            createMissionTable(db);
+            createMissionCartTable(db);
+            createTripLocationTable(db);
+        }
+
     }
 }

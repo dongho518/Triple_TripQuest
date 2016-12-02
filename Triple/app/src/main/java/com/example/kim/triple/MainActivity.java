@@ -20,7 +20,12 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.example.kim.triple.data.dao.ClearDao;
+import com.example.kim.triple.data.dao.MissionCartDao;
+import com.example.kim.triple.data.dao.MissionDao;
 import com.example.kim.triple.data.dao.TripLocationDao;
+import com.example.kim.triple.data.model.Mission;
+import com.example.kim.triple.data.model.MissionCart;
 import com.example.kim.triple.data.model.TripLocation;
 
 public class MainActivity extends AppCompatActivity {
@@ -79,12 +84,13 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        ClearDao  cleardao = new ClearDao(this);
+        cleardao.clear();
+        initTriptable();
+        initMission();
 
-        TripLocationDao tripLocationDao = new TripLocationDao(this);
-        TripLocation trip = new TripLocation();
-        trip.setAddress("sss").setName("aaa").setPhoneNumber("sdfds").setPicture("sdfds").setTag("sdfds");
-        tripLocationDao.insert(trip);
     }
+
 
     private void setupTabIcons(){
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
@@ -180,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     args = new Bundle();
                     break;
                 case 3:
-                    fragment = new MyInformation();
+                    fragment = new Select_Place();
                     args = new Bundle();
                     break;
 
@@ -211,5 +217,64 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    private void initTriptable(){
+
+        TripLocationDao tripLocationDao = new TripLocationDao(this);
+        TripLocation tripLocation = new TripLocation();
+        tripLocation.setAddress("제주특별자치도 서귀포시 상예로 381(상예동)")
+                .setName("대유랜드").setPhoneNumber("010-0000-0000").setTag("[레포츠] 제주도서귀포시").setPicture("jeju_place1");
+        tripLocationDao.insert(tripLocation);
+        tripLocation.setAddress("제주특별자치도 서귀포시 중문관광로 154-17(색달동)")
+                .setName("퍼시픽랜드").setPhoneNumber("010-0000-0000").setTag("[관광지] 퍼시픽랜드").setPicture("jeju_place2");
+        tripLocationDao.insert(tripLocation);
+        tripLocation.setAddress("제주특별자치도 제주시 1100로 2070-61(해안동)")
+                .setName("한라산 트레킹").setPhoneNumber("010-0000-0000").setTag("[레포츠] 제주도제주시").setPicture("jeju_place3");
+        tripLocationDao.insert(tripLocation);
+        tripLocation.setAddress("제주특별자치도 제주시 한림읍 한림로 300(한림읍)")
+                .setName("한림공원 국화축제2016").setPhoneNumber("010-0000-0000").setTag("[관광지] 제주도 서귀포시").setPicture("jeju_place4");
+        tripLocationDao.insert(tripLocation);
+
+    }
+
+    private void initMission(){
+
+        MissionDao missionDao = new MissionDao(this);
+        Mission mission = new Mission();
+        mission.setName("마라톤미션").setExplan("A에서B까지 가시오").setImageUrl("maraton")
+                .setTripLocationId(3)
+                .setClassification(0)
+                .setEndTime(10)
+                .setLatitude("123")
+                .setLongitude("32");
+        missionDao.insert(mission);
+        mission.setName("페러글라이딩미션").setExplan("A에서 시오").setImageUrl("fly")
+                .setTripLocationId(1)
+                .setClassification(0)
+                .setEndTime(10)
+                .setLatitude("123")
+                .setLongitude("32");
+        missionDao.insert(mission);
+        mission.setName("마라톤미션").setExplan("A에서B까지 가시오").setImageUrl("maraton")
+                .setTripLocationId(1)
+                .setClassification(0)
+                .setEndTime(10)
+                .setLatitude("123")
+                .setLongitude("32");
+        missionDao.insert(mission);
+        mission.setName("마라톤미션").setExplan("A에서B까지 가시오").setImageUrl("maraton")
+                .setTripLocationId(2)
+                .setClassification(0)
+                .setEndTime(10)
+                .setLatitude("123")
+                .setLongitude("32");
+        missionDao.insert(mission);
+        missionDao.test();
+        MissionCartDao missionCartDao = new MissionCartDao(this);
+        MissionCart missionCart = new MissionCart();
+        missionCart.setUserId(1010).setMissionId(1).setMissionResult(0);
+        missionCartDao.test();
+        missionCartDao.insert(missionCart);
     }
 }
