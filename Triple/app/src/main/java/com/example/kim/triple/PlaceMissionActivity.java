@@ -37,8 +37,8 @@ import broadcast.ProximityIntentReceiver;
 public class PlaceMissionActivity extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbar;
     private LocationManager locationManager;
-    private double latitude=35.894487;
-    private double longitude=128.610536;
+    private double latitude = 35.894487;
+    private double longitude = 128.610536;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,29 +49,29 @@ public class PlaceMissionActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        int tripId = intent.getIntExtra("place_id",2);
+        int tripId = intent.getIntExtra("place_id", 2);
 
-        Log.i("tripId",""+tripId);
+        Log.i("tripId", "" + tripId);
         TripLocationDao tripLocationDao = new TripLocationDao(this);
         TripLocation tripLocation = tripLocationDao.selectFromId(tripId);
-        Log.i("getTrip",tripLocation.getName());
+        Log.i("getTrip", tripLocation.getName());
 
 
-        Bitmap image = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(tripLocation.getPicture(), "drawable","com.example.kim.triple"));
-        ImageView detail_ImageView = (ImageView)findViewById(R.id.backdrop);
+        Bitmap image = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(tripLocation.getPicture(), "drawable", "com.example.kim.triple"));
+        ImageView detail_ImageView = (ImageView) findViewById(R.id.backdrop);
         detail_ImageView.setImageBitmap(image);
         // detail_ImageView.setImageResource(R.drawable.res1);
 
         CollapsingToolbarLayout ctl = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         ctl.setTitle(tripLocation.getName());
 
-        TextView tag = (TextView) findViewById(R.id.detailText1) ;
+        TextView tag = (TextView) findViewById(R.id.detailText1);
         TextView phone = (TextView) findViewById(R.id.detailText2);
-        TextView address = (TextView) findViewById(R.id.detailText3) ;
+        TextView address = (TextView) findViewById(R.id.detailText3);
 
-        tag.setText("Tag : "+tripLocation.getTag());
-        address.setText("주소 : "+tripLocation.getAddress());
-        phone.setText("전화번호 : "+tripLocation.getPhoneNumber());
+        tag.setText("Tag : " + tripLocation.getTag());
+        address.setText("주소 : " + tripLocation.getAddress());
+        phone.setText("전화번호 : " + tripLocation.getPhoneNumber());
 
 
        /* ArrayList<String> arrName = new ArrayList<String>();
@@ -83,18 +83,18 @@ public class PlaceMissionActivity extends AppCompatActivity {
         listview.setNestedScrollingEnabled(true);
 
         MissionDao missionDao = new MissionDao(this);
-        List<Mission> missionList = missionDao.selectFromTripId( tripId );
+        List<Mission> missionList = missionDao.selectFromTripId(tripId);
 
-        for(Mission elem : missionList){
-            adapter.addItem(elem.getId(), BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(elem.getImageUrl(), "drawable","com.example.kim.triple")),
-                    elem.getName(), elem.getExplan(),elem.getExplan());
+        for (Mission elem : missionList) {
+            adapter.addItem(elem.getId(), BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(elem.getImageUrl(), "drawable", "com.example.kim.triple")),
+                    elem.getName(), elem.getExplan(), elem.getExplan());
         }
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 // get item
-                MissionViewItem item = (MissionViewItem) parent.getItemAtPosition(position) ;
+                MissionViewItem item = (MissionViewItem) parent.getItemAtPosition(position);
 
                 int missionId = item.getId();
 
@@ -104,69 +104,15 @@ public class PlaceMissionActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                 // intent를 보내면서 다음 액티비티로부터 데이터를 받기 위해 식별번호(1000)을 준다.
-                intent.putExtra("mission_id",missionId);
-               // Toast.makeText(getApplicationContext(),place_name+" 미션이 선택 되었습니다.", Toast.LENGTH_SHORT).show();
-               // setupLocation();
+                intent.putExtra("mission_id", missionId);
+                // Toast.makeText(getApplicationContext(),place_name+" 미션이 선택 되었습니다.", Toast.LENGTH_SHORT).show();
+                // setupLocation();
                 // TODO : use item data.
                 startActivity(intent);
             }
-        }) ;
+        });
 
-        checkPermission();
-    }
-
-
-    private void setupLocation()
-    {
-        try {
-            locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-            Intent missionIntent = new Intent(this, ProximityIntentReceiver.class);
-            PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, missionIntent, 0);
-            locationManager.addProximityAlert(latitude, longitude, 10f, -1, proximityIntent);
-            LocationListener locationListener = new LocationListener() {
-                public void onLocationChanged(Location location) {
-
-                }
-
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-                }
-
-                public void onProviderEnabled(String provider) {
-                }
-
-                public void onProviderDisabled(String provider) {
-                }
-            };
-
-            if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER))
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,
-                        locationListener);
-            if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER))
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
-                        locationListener);
-        } catch (SecurityException e){
-            e.printStackTrace();
-        }
-    }
-
-    private void checkPermission(){
-        askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, APP_PERMISSION);
-        if (ActivityCompat. checkSelfPermission (this,
-                Manifest.permission. ACCESS_FINE_LOCATION ) != PackageManager. PERMISSION_GRANTED
-                && ActivityCompat. checkSelfPermission (this,
-                Manifest.permission. ACCESS_COARSE_LOCATION ) != PackageManager. PERMISSION_GRANTED )
-            return;
-    }
-
-    static final Integer APP_PERMISSION = 1;
-    private void askForPermission(String permission, Integer requestCode) {
-        if(ContextCompat.checkSelfPermission(PlaceMissionActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(PlaceMissionActivity.this, permission)) {
-                ActivityCompat.requestPermissions(PlaceMissionActivity.this, new String[]{permission}, requestCode);
-            } else {
-                ActivityCompat.requestPermissions(PlaceMissionActivity.this, new String[]{permission}, requestCode);
-            }
-        }
     }
 }
+
+
