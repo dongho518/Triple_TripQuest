@@ -30,6 +30,7 @@ public class MissionPlay extends AppCompatActivity {
     private TextView missionInfoTextView;
     private TextView stepTextView;
     private TextView barometerTextView;
+    private myToggle mytoggle;
     int missionId;
     private ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -88,7 +89,7 @@ public class MissionPlay extends AppCompatActivity {
 
         tag.setText("미션대기");
         FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.floatActionBtn);
-        final myToggle mytoggle = new myToggle();
+        mytoggle = new myToggle();
         mytoggle.setToggle(true);
         final Intent serviceintent = new Intent(this, BackgroundSensorService.class);
 
@@ -96,19 +97,34 @@ public class MissionPlay extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mytoggle.getToggle()) {
+/*
+                    Intent myintent = new Intent(getApplicationContext(), BedgePopupActivity.class);
+                    //myintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(myintent);
+*/
                     tag.setText("미션시작");
                     serviceintent.putExtra("mission_id",missionId);
                     bindService(serviceintent, connection, BIND_AUTO_CREATE);
+
                     mytoggle.setToggle(false);
                     Thread startSpeed = new Thread(new GetSpeedThread());
                     startSpeed.start();
                 } else {
                     tag.setText("미션대기");
                     mytoggle.setToggle(true);
-                    unbindService(connection);
+                    //unbindService(connection);
                 }
             }
         });
+
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if(mytoggle.getToggle()==false){
+            unbindService(connection);
+        }
+
     }
 
     private class myToggle{
@@ -137,15 +153,15 @@ public class MissionPlay extends AppCompatActivity {
                         try{
                             if(missionId == 1) {
                                 missionInfoTextView.setVisibility(View.VISIBLE);
-                                missionInfoTextView.setText(String.valueOf(binder.get_speed()));
+                                missionInfoTextView.setText(String.valueOf(binder.get_speed())+"m/s");
 
                             } else if(missionId == 2)
                             {
-                                barometerTextView.setText(String.valueOf(binder.getBarometer()));
+                                barometerTextView.setText(String.valueOf(binder.getBarometer())+"hpa");
                             }else if(missionId ==3){
 
                             }else{
-                                stepTextView.setText(String.valueOf(binder.getStep()));
+                                stepTextView.setText(String.valueOf(binder.getStep())+"걸음");
                             }
 
                         }catch (RemoteException e){

@@ -9,7 +9,7 @@ public class Mission {
     private int endTime;
     private String latitude;
     private String longitude;
-    private int classification;
+    private String classification;
     private int tripLocationId;
     private String ImageUrl;
     private String Mname;
@@ -42,7 +42,7 @@ public class Mission {
         return this;
     }
 
-    public int getClassification() {
+    public String getClassification() {
         return classification;
     }
 
@@ -55,7 +55,7 @@ public class Mission {
         return this;
     }
 
-    public Mission setClassification(int classification) {
+    public Mission setClassification(String classification) {
         this.classification = classification;
         return this;
     }

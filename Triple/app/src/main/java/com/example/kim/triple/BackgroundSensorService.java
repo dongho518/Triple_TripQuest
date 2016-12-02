@@ -1,6 +1,7 @@
 package com.example.kim.triple;
 
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 
 import com.example.kim.triple.data.dao.MissionDao;
 import com.example.kim.triple.data.model.Mission;
+import com.example.kim.triple.data.model.MissionCart;
 
 /**
  * Created by khwbori on 2016. 12. 1..
@@ -41,7 +43,9 @@ import com.example.kim.triple.data.model.Mission;
 public class BackgroundSensorService extends Service {
     private Step step;
     private Barometer barometer;
+    private Speedmeter speedmeter;
     double mySpeed, maxSpeed;
+    private  Mission mission;
 
     IMissionAidlInterface.Stub binder = new IMissionAidlInterface.Stub() {
         @Override
@@ -78,20 +82,23 @@ public class BackgroundSensorService extends Service {
         int missionId = intent.getIntExtra("mission_id",0);
         Log.i("background Id",""+missionId);
         MissionDao missionDao = new MissionDao(getApplicationContext());
-        Mission mission =missionDao.selectFromId(missionId);
-        if(missionId == 1){ //마라톤
+        mission =missionDao.selectFromId(missionId);
 
+
+        if(missionId == 1){ //마라톤
+            speedmeter = new Speedmeter();
+            speedmeter.setTime(mission.getEndTime());
             Thread speedThread = new Thread(new Speedmeter());
             speedThread.start();
 
+
         }else if(missionId==2){ //페러글라이딩
             Log.i("background 2 start","start");
+
             barometer = new Barometer();
             barometer.setTime(mission.getEndTime());
             Thread barometerThread = new Thread(barometer);
-            int time = mission.getEndTime();
             barometerThread.start();
-
 
         }else if(missionId==3){ //온도
 
@@ -99,15 +106,7 @@ public class BackgroundSensorService extends Service {
             step = new Step();
             step.setTime(mission.getEndTime());
             Thread stepThread = new Thread(step);
-
-            int time = mission.getEndTime();
             stepThread.start();
-            try{
-                Thread.sleep(1000*time);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
-            step.destroyStep();
         }
 
         return binder;
@@ -115,6 +114,12 @@ public class BackgroundSensorService extends Service {
     @Override
     public void onDestroy(){
         super.onDestroy();
+
+        /*
+        Intent myintent = new Intent(this, MainActivity.class);
+        myintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(myintent);
+        Log.i("Service Destroy","");*/
         /*
         int mystep =  step.getStep();
         float barvalue = barometer.getBarometer();
@@ -129,11 +134,11 @@ public class BackgroundSensorService extends Service {
     public void onCreate() {
         // TODO 서비스 생성시에 호출
         super.onCreate();
-
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // TODO 서비스 시작시에 호출
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -198,7 +203,19 @@ public class BackgroundSensorService extends Service {
         };
 
         public void destroyStep(){
+
             sensorManager.unregisterListener(stepDetector);
+            Intent myintent = new Intent(BackgroundSensorService.this, BedgePopupActivity.class);
+            myintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if(steps > 100){
+                myintent.putExtra("result",1);
+            }else{
+                myintent.putExtra("result",0);
+            }
+            myintent.putExtra("missionId",mission.getId());
+            myintent.putExtra("missionName",mission.getName());
+            myintent.putExtra("missionBedge",mission.getClassification());
+            startActivity(myintent);
         }
     };
 
@@ -256,6 +273,14 @@ public class BackgroundSensorService extends Service {
 
         public void destroyBarometer(){
             sensorManager.unregisterListener(barometerDetector);
+            Intent myintent = new Intent(BackgroundSensorService.this, BedgePopupActivity.class);
+            myintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            myintent.putExtra("missionId",mission.getId());
+            myintent.putExtra("missionName",mission.getName());
+            myintent.putExtra("missionBedge",mission.getClassification());
+            startActivity(myintent);
+           // startActivity(new Intent(getApplicationContext(), BedgePopupActivity.class));
         }
 
     };
@@ -265,6 +290,8 @@ public class BackgroundSensorService extends Service {
         private LocationManager lm;
         private LocationListener ll;
         private Handler handler;
+        private int time;
+        private int sum_speed=0;
 
         public Speedmeter()
         {
@@ -280,8 +307,11 @@ public class BackgroundSensorService extends Service {
                 e.printStackTrace();
             }
         }
+        public void setTime(int arg){
+            time = arg;
+        }
         public void run(){
-            for(int i = 0; i<30; i++){
+            for(int i = 0; i<time; i++){
 
                 try{
                     Thread.sleep(1000);
@@ -302,6 +332,7 @@ public class BackgroundSensorService extends Service {
             public void onLocationChanged(Location location) {
 
                 if (location != null) {
+                    sum_speed+=mySpeed;
                     mySpeed = location.getSpeed();
                     if (mySpeed > maxSpeed) {
                         maxSpeed = mySpeed * (float)3.6;
@@ -321,6 +352,19 @@ public class BackgroundSensorService extends Service {
             public void onStatusChanged(String provider, int status, Bundle extras) {
                 // TODO Auto-generated method stub
             }
+        }
+        public void Destroyspeed(){
+            Intent myintent = new Intent(BackgroundSensorService.this, BedgePopupActivity.class);
+            myintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if(sum_speed/time > 4  ){
+                myintent.putExtra("result",1);
+            }else{
+                myintent.putExtra("result",0);
+            }
+            myintent.putExtra("missionId",mission.getId());
+            myintent.putExtra("missionName",mission.getName());
+            myintent.putExtra("missionBedge",mission.getClassification());
+            startActivity(myintent);
         }
     }
 

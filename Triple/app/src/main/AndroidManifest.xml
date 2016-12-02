@@ -53,6 +53,11 @@
             android:name=".MissionPreviewActivity"
             android:theme = "@style/AppTheme.NoActionBar">
         </activity>
+
+        <activity
+            android:name=".BedgePopupActivity"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
     </application>
 
 </manifest>

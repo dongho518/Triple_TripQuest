@@ -34,7 +34,7 @@ public class MissionDao {
                         .setEndTime(cursor.getInt(1))
                         .setLatitude(cursor.getString(2))
                         .setLongitude(cursor.getString(3))
-                        .setClassification(cursor.getInt(4))
+                        .setClassification(cursor.getString(4))
                         .setTripLocationId(cursor.getInt(5))
                         .setImageUrl(cursor.getString(6)));
             }
@@ -84,7 +84,7 @@ public class MissionDao {
                         .setEndTime(cursor.getInt(1))
                         .setLatitude(cursor.getString(2))
                         .setLongitude(cursor.getString(3))
-                        .setClassification(cursor.getInt(4))
+                        .setClassification(cursor.getString(4))
                         .setTripLocationId(cursor.getInt(5))
                         .setName(cursor.getString(6))
                         .setExplan(cursor.getString(7))
@@ -115,7 +115,7 @@ public class MissionDao {
                         .setEndTime(cursor.getInt(1))
                         .setLatitude(cursor.getString(2))
                         .setLongitude(cursor.getString(3))
-                        .setClassification(cursor.getInt(4))
+                        .setClassification(cursor.getString(4))
                         .setTripLocationId(cursor.getInt(5))
                         .setName(cursor.getString(6))
                         .setExplan(cursor.getString(7))

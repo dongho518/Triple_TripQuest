@@ -260,30 +260,35 @@ public class MainActivity extends AppCompatActivity {
 
         MissionDao missionDao = new MissionDao(this);
         Mission mission = new Mission();
-        mission.setName("마라톤미션").setExplan("A에서B까지 가시오").setImageUrl("maraton")
+        mission.setName("마라톤미션").setExplan("1. 제한 시간 내에 미션시작 장소로 이동한다.\n\n" +
+                "2. 미션 시작 시 목표지점으로 이동한다.\n\n" +
+                "3. 초속 4M 이상의 속도를 유지한다.").setImageUrl("maraton")
                 .setTripLocationId(1)
-                .setClassification(0)
+                .setClassification("달리기")
                 .setEndTime(10)
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);
-        mission.setName("페러글라이딩미션").setExplan("A에서 나시오").setImageUrl("fly")
+        mission.setName("페러글라이딩미션").setExplan("1. 제한 시간 내에 미션시작 장소로 이동한다.\n\n" +
+                "2. 미션시작 장소 반경 100M 안에서 상공 20M 지점으로 이동한다.").setImageUrl("fly")
                 .setTripLocationId(1)
-                .setClassification(0)
+                .setClassification("비행")
+                .setEndTime(20)
+                .setLatitude("123")
+                .setLongitude("32");
+        missionDao.insert(mission);
+        mission.setName("고온미션").setExplan("1. 제한 시간 내에 미션시작 장소로 이동한다.\n\n" +
+                "2. 미션시작 시 제한 시간 동안 50도를 유지한다.").setImageUrl("hot")
+                .setTripLocationId(1)
+                .setClassification("열정")
                 .setEndTime(10)
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);
-        mission.setName("고온미션").setExplan("더운 곳으로 가시오").setImageUrl("hot")
+        mission.setName("만보미션").setExplan("1. 제한 시간 내에 미션시작 장소로 이동한다.\n\n" +
+                "2. 화이팅").setImageUrl("walk")
                 .setTripLocationId(1)
-                .setClassification(0)
-                .setEndTime(10)
-                .setLatitude("123")
-                .setLongitude("32");
-        missionDao.insert(mission);
-        mission.setName("만보미션").setExplan("만보이상 걸으시오").setImageUrl("walk")
-                .setTripLocationId(1)
-                .setClassification(0)
+                .setClassification("걷기")
                 .setEndTime(10)
                 .setLatitude("123")
                 .setLongitude("32");

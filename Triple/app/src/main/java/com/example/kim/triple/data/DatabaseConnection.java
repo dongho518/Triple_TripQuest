@@ -154,7 +154,7 @@ public class DatabaseConnection {
                             "endTime integer,"+
                             "latitude Char(128)," +
                             "longitude Char(128)," +
-                            "classification integer," +
+                            "classification Char(128)," +
                             "tripLocationId integer,"+
                             "name Char(128),"+
                             "explan Char(128),"+
