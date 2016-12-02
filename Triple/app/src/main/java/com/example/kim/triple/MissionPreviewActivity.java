@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kim.triple.data.dao.MissionCartDao;
 import com.example.kim.triple.data.dao.MissionDao;
@@ -22,6 +23,7 @@ public class MissionPreviewActivity extends AppCompatActivity {
 
     CollapsingToolbarLayout collapsingToolbar;
     private int UserId =1010;
+    private boolean aBoolean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,7 @@ public class MissionPreviewActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
-
+        aBoolean = false;
 
         Intent intent = getIntent();
         final int missionId = intent.getIntExtra("mission_id",1);
@@ -51,16 +53,21 @@ public class MissionPreviewActivity extends AppCompatActivity {
 
         final MissionCartDao missionCartDao = new MissionCartDao(this);
 
-        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.floatActionBtn);
+        final FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.floatActionBtn);
         myFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MissionCart missionCart = new MissionCart();
-                missionCart.setUserId(UserId);
-                missionCart.setMissionId(missionId);
-                missionCart.setMissionResult(0);
-                missionCartDao.insert(missionCart);
-                Log.i("mission add",""+missionId+UserId);
+                if (aBoolean == false) {
+                    MissionCart missionCart = new MissionCart();
+                    missionCart.setUserId(UserId);
+                    missionCart.setMissionId(missionId);
+                    missionCart.setMissionResult(0);
+                    missionCartDao.insert(missionCart);
+                    Log.i("mission add", "" + missionId + UserId);
+                    myFab.setImageResource(R.drawable.ic_close);
+                    Toast.makeText(getApplicationContext(), "미션이 선택 되었습니다.", Toast.LENGTH_SHORT).show();
+                    aBoolean = true;
+                }
             }
         });
 

@@ -75,7 +75,7 @@ public class MissionCartList extends Fragment {
         List <MissionCart> missionlist = missionCartDao.selectFromUserId(1010);
         MissionDao missionDao = new MissionDao(this.getContext());
 
-        MissionViewAdapter adapter = new MissionViewAdapter();
+        ListViewAdapter adapter = new ListViewAdapter();
         ListView listview = (ListView) view.findViewById(R.id.missionCart_imageview);
         listview.setAdapter(adapter);
         //버전 체크필요
@@ -94,7 +94,7 @@ public class MissionCartList extends Fragment {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
 
-                MissionViewItem item = (MissionViewItem) parent.getItemAtPosition(position) ;
+                ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
 
                 int missionId = item.getId();
 
