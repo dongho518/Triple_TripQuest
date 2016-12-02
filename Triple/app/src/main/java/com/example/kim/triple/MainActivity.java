@@ -1,9 +1,11 @@
 package com.example.kim.triple;
 
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -27,6 +29,8 @@ import com.example.kim.triple.data.dao.TripLocationDao;
 import com.example.kim.triple.data.model.Mission;
 import com.example.kim.triple.data.model.MissionCart;
 import com.example.kim.triple.data.model.TripLocation;
+
+import static android.support.v4.view.PagerAdapter.POSITION_NONE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -161,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -217,7 +221,20 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
+
+        @Override
+        public int getItemPosition(Object item) {
+            return POSITION_NONE;
+        }
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        mSectionsPagerAdapter.notifyDataSetChanged();
+    }
+
+
 
     private void initTriptable(){
 
@@ -270,11 +287,6 @@ public class MainActivity extends AppCompatActivity {
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);
-        missionDao.test();
-        MissionCartDao missionCartDao = new MissionCartDao(this);
-        MissionCart missionCart = new MissionCart();
-        missionCart.setUserId(1010).setMissionId(1).setMissionResult(0);
-        missionCartDao.test();
-        missionCartDao.insert(missionCart);
+
     }
 }
