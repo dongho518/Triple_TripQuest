@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 "2. 미션시작 장소 반경 100M 안에서 상공 20M 지점으로 이동한다.").setImageUrl("fly")
                 .setTripLocationId(1)
                 .setClassification("비행")
-                .setEndTime(20)
+                .setEndTime(2)
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);
@@ -281,18 +281,19 @@ public class MainActivity extends AppCompatActivity {
                 "2. 미션시작 시 제한 시간 동안 50도를 유지한다.").setImageUrl("hot")
                 .setTripLocationId(1)
                 .setClassification("열정")
-                .setEndTime(10)
+                .setEndTime(2)
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);
         mission.setName("만보미션").setExplan("1. 제한 시간 내에 미션시작 장소로 이동한다.\n\n" +
                 "2. 화이팅").setImageUrl("walk")
-                .setTripLocationId(1)
+                .setTripLocationId(2)
                 .setClassification("걷기")
-                .setEndTime(10)
+                .setEndTime(5)
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);
+
 
     }
 }

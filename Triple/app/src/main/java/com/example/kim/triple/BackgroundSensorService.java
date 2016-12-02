@@ -276,6 +276,7 @@ public class BackgroundSensorService extends Service {
             Intent myintent = new Intent(BackgroundSensorService.this, BedgePopupActivity.class);
             myintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+            myintent.putExtra("result",1);
             myintent.putExtra("missionId",mission.getId());
             myintent.putExtra("missionName",mission.getName());
             myintent.putExtra("missionBedge",mission.getClassification());

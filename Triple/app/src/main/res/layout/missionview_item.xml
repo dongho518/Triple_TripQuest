@@ -28,17 +28,7 @@
             android:layout_gravity="center"
             android:gravity="center" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView2"
-            android:textSize="10dp"
-            android:textColor="#333333"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center"
-            android:gravity="center" />
+
 
         <TextView
             android:layout_width="match_parent"

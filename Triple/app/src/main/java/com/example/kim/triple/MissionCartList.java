@@ -75,7 +75,7 @@ public class MissionCartList extends Fragment {
         List <MissionCart> missionlist = missionCartDao.selectFromUserId(1010);
         MissionDao missionDao = new MissionDao(this.getContext());
 
-        ListViewAdapter adapter = new ListViewAdapter();
+        MissionCartAdapter adapter = new MissionCartAdapter();
         ListView listview = (ListView) view.findViewById(R.id.missionCart_imageview);
         listview.setAdapter(adapter);
         //버전 체크필요
@@ -87,7 +87,7 @@ public class MissionCartList extends Fragment {
             int missionId = elem.getMissionId();
             Mission mission = missionDao.selectFromId(missionId);
             adapter.addItem(mission.getId(), BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(mission.getImageUrl(), "drawable","com.example.kim.triple")),
-                    mission.getName(), mission.getExplan(),mission.getExplan());
+                    mission.getName(), mission.getExplan(), mission.getExplan());
         }
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
