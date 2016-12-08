@@ -12,9 +12,11 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kim.triple.data.dao.MissionDao;
@@ -68,10 +70,19 @@ public class MissionPlay extends AppCompatActivity {
         final TextView tag = (TextView) findViewById(R.id.detailText1);
         TextView phone = (TextView) findViewById(R.id.detailText2);
         TextView address = (TextView) findViewById(R.id.detailText3);
+
+        ImageView map = (ImageView) findViewById(R.id.mapImageView);
+        map.setImageResource(R.drawable.sample_map);
+        TextView detailtext = (TextView) findViewById(R.id.detailtextView1);
+        detailtext.setText(mission.getExplan());
+
+
         missionInfoTextView = (TextView) findViewById(R.id.missionInfo_textview);
         stepTextView = (TextView) findViewById(R.id.step_textview);
         barometerTextView = (TextView) findViewById(R.id.barometer_textview);
+        final LinearLayout preview = (LinearLayout) findViewById(R.id.preview);
 
+        preview.setVisibility(View.INVISIBLE);
         missionInfoTextView.setVisibility(View.INVISIBLE);
         barometerTextView.setVisibility(View.INVISIBLE);
         stepTextView.setVisibility(View.INVISIBLE);
@@ -83,7 +94,7 @@ public class MissionPlay extends AppCompatActivity {
             barometerTextView.setVisibility(View.VISIBLE);
         }else if(missionId ==3){
 
-        }else{
+        }else if(missionId ==4){
             stepTextView.setVisibility(View.VISIBLE);
         }
 
@@ -92,6 +103,7 @@ public class MissionPlay extends AppCompatActivity {
         mytoggle = new myToggle();
         mytoggle.setToggle(true);
         final Intent serviceintent = new Intent(this, BackgroundSensorService.class);
+        preview.setVisibility(View.VISIBLE);
 
         myFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,13 +117,14 @@ public class MissionPlay extends AppCompatActivity {
                     tag.setText("미션시작");
                     serviceintent.putExtra("mission_id",missionId);
                     bindService(serviceintent, connection, BIND_AUTO_CREATE);
-
+                    preview.setVisibility(View.INVISIBLE);
                     mytoggle.setToggle(false);
                     Thread startSpeed = new Thread(new GetSpeedThread());
                     startSpeed.start();
                 } else {
                     tag.setText("미션대기");
                     mytoggle.setToggle(true);
+                    preview.setVisibility(View.VISIBLE);
                     //unbindService(connection);
                 }
             }

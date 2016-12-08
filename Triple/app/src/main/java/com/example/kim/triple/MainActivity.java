@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
                 "3. 초속 4M 이상의 속도를 유지한다.").setImageUrl("maraton")
                 .setTripLocationId(1)
                 .setClassification("달리기")
-                .setEndTime(10)
+                .setEndTime(7)
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 "2. 미션시작 장소 반경 100M 안에서 상공 20M 지점으로 이동한다.").setImageUrl("fly")
                 .setTripLocationId(1)
                 .setClassification("비행")
-                .setEndTime(2)
+                .setEndTime(7)
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                 "2. 미션시작 시 제한 시간 동안 50도를 유지한다.").setImageUrl("hot")
                 .setTripLocationId(1)
                 .setClassification("열정")
-                .setEndTime(2)
+                .setEndTime(7)
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);
@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
                 "2. 화이팅").setImageUrl("walk")
                 .setTripLocationId(2)
                 .setClassification("걷기")
-                .setEndTime(5)
+                .setEndTime(7)
                 .setLatitude("123")
                 .setLongitude("32");
         missionDao.insert(mission);

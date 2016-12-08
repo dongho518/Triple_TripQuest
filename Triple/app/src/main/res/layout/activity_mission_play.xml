@@ -140,7 +140,31 @@
                     android:paddingLeft="10dp"
                     android:id="@+id/barometer_textview"
                     />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/preview"
+                    >
 
+                    <TextView
+                        android:layout_width="320dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/add_field2"
+                        android:textSize="20dp"
+                        android:textColor="#5f5f5f"
+                        android:layout_margin="20dp"
+                        android:layout_gravity="center"
+                        android:padding="15dp"
+                        android:id="@+id/detailtextView1"
+                        />
+
+                    <ImageView
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:id="@+id/mapImageView"/>
+                </LinearLayout>
             </RelativeLayout>
 
         </LinearLayout>
